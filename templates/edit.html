@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 style="margin: 1.5rem 0 1rem;">Edit Note</h2>
+<form method="POST" style="background:white; padding:2rem; border-radius:6px; box-shadow:0 1px 4px rgba(0,0,0,0.08);">
+  <div style="margin-bottom:1rem;">
+    <label style="display:block; margin-bottom:0.4rem; font-weight:bold;">Title</label>
+    <input type="text" name="title" value="{{ note.title }}" required
+      style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px; font-size:1rem;" />
+  </div>
+  <div style="margin-bottom:1.5rem;">
+    <label style="display:block; margin-bottom:0.4rem; font-weight:bold;">Content</label>
+    <textarea name="content" rows="6" required
+      style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px; font-size:1rem;">{{ note.content }}</textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Update Note</button>
+  <a href="/" class="btn btn-secondary" style="margin-left:0.5rem;">Cancel</a>
+</form>
+{% endblock %}
