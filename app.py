@@ -7,7 +7,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///notes.db')
+
+# Use SQLite locally, PostgreSQL on Railway
+database_url = os.environ.get('DATABASE_URL', 'sqlite:///notes.db')
+if database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret')
 
@@ -24,6 +30,7 @@ class Note(db.Model):
 
 with app.app_context():
     db.create_all()
+    print("✅ Database ready!")
 
 @app.route('/')
 def index():
@@ -59,4 +66,4 @@ def delete(id):
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
